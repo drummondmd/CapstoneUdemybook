@@ -1,0 +1,73 @@
+<%- include('partials/header.ejs') %>
+
+
+<section id="body">
+    <div class="container">
+        <div class="container mb-3">
+            <form action="/">
+
+                        <p>Ordenar por:</p>
+            <select name="order" id="" onchange="this.form.submit()">
+                <option selected="selected" disabled >...</option>
+            <option value="avaliacoes.nota">Maior nota</option>
+            <option value="avaliacoes.data_avaliacao">Mais atual</option>
+            </select>
+        
+            </form>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- resultados abaixo-->
+    <div class=" container h-75 flex-column">
+        <div class="row g-2">
+
+        
+
+
+    <% if(locals.result){ %>
+        <% result.forEach(element => {%>
+            <div class="col-lg-6">
+         
+               <div class="row">
+                    <div class="col-4 ">
+                        <% if(element.cover_id == ""){ %>
+                            <img class="book-cover img-thumbnail"  src="https://openlibrary.org/static/images/icons/avatar_book-sm.png" alt="">
+                            <% }else{%>
+                                <img class="book-cover img-thumbnail" src="//covers.openlibrary.org/b/id/<%= element.cover_id %>-L.jpg" alt="">
+                            <%} %>
+                    </div>
+                    <div class="col-8">
+                        <p class="h5"><%= element.titulo%></p>
+                        <p><%= element.autor%></p>
+                        <p>Nota:<%=element.nota%>/10, Avaliado por: <%=element.nome%></p>
+                        <p class="text-area-index"><%=element.avaliacao%> </p>
+                    </div>
+
+
+                </div>
+
+            
+      
+            </div>
+            
+       <% }); %>
+        
+        
+        <% }else{ %>
+            <p>
+                Ainda não há avaliações, ou algo deu errado.
+            </p>
+            <% } %>
+
+        </div>
+        </div>
+
+</section>
+
+
+
+<%- include('partials/footer.ejs') %>

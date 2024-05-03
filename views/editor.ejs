@@ -1,0 +1,203 @@
+<%-include ("partials/header.ejs")%>
+
+<div class="container">
+
+    <!--Butões-->
+
+    <div class="m-2">
+        <button class="btn btn-outline-primary" id="new-btn">Nova avaliação</button>
+        <button class="btn btn-outline-primary" id="user-btn">Usuários</button>
+        <button class="btn btn-outline-primary" id="edit-btn">Editar ou excluir avaliação atual  </button>
+        <a href="/editor"><button class="btn btn-outline-primary" >Voltar  </button></a>
+    
+    </div>
+
+    <!--Adicionar livro-->
+
+    <div class="container">
+        <div id="search" class="col-12 col-lg-auto mb-3 mb-lg-0" style="display: none;">
+
+            <form class="book-search g-2">
+                <input class="form-control mb-2" type="text" name="search" id="searchInput" autocomplete="off" placeholder="Digite o nome do livro, autor, ou ISBN">
+                <input type="button" class="btn btn-outline-primary btn-lg mb-2" id="search-input" value="Enviar">
+
+            </form>
+            <div class="container">
+                
+                            <ul class="dropdownList row g-2"></ul>
+                
+
+            </div>
+            
+
+        </div>
+
+    </div>
+
+
+
+
+
+    <section id="newSubmit" style="display: none;">        
+        <div class="container mb-3">
+            <form action="/submit" method="post">
+            <div class="row">
+                
+                <div class="col">
+                    <label for="usuario" class="form-label">Usuario da avaliaçao</label>
+                <select class="form-select" name="usuario" id="">
+                    <option selected>Selecione o úsuario</option>
+                    <% if(locals.user){%>
+                        <%user.forEach(function(elem,index){%>
+                            <option value="<%=elem.id%>"><%=elem.nome%></option>
+                       <% })%>
+
+                    <%}else{%>
+                    Ainda sem usuarios, favor adicionar.
+                   <% }%>
+                </select><br>
+                <label for="titulo" class="form-label" >Titulo do livro </label><br>
+                <input type="text" name="titulo" required class="form-control"> <br>
+                <label for="autor" class="form-label" >Autor</label><br>
+                <input type="text" name="autor" required class="form-control"> <br>
+                <input type="hidden" name="cover_id" type="text" class="form-control"><br>
+
+                </div>
+                <div class="col">
+                    <label for="nota">Nota:</label>
+                    <select class="form-select" name="nota" id="">
+                        <option selected> Dê sua nota: </option>
+                        <option value="0">0</option>
+    
+                        <option value="1">1</option>
+                        
+                        <option value="2">2</option>
+                        
+                        <option value="3">3</option>
+                        
+                        <option value="4">4</option>
+                        
+                        <option value="5">5</option>
+                        
+                        <option value="6">6</option>
+                        
+                        <option value="7">7</option>
+                        
+                        <option value="8">8</option>
+                        
+                        <option value="9">9</option>
+                        
+                        <option value="10">10</option>
+                    </select>
+                    <label for="corpo" class="form-label">Avaliação</label><br>
+                    <textarea name="corpo" id="" cols="50" rows="20" wrap="hard" resize="none" required placeholder="Insira sua avaliação aqui" class="form-control"></textarea><br>
+                    <input type="submit" value="Enviar Avaliação" class="btn btn-outline-primary"><br>
+
+
+                </div>
+                
+            </div>
+        </form>
+
+
+
+
+                
+
+    
+            
+    
+        </div>
+
+    </section>
+
+    <!--Usuarios-->
+
+    <section id="user" style="display: none;">
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <div id="actual_user container">
+                        <h2 class="h4"> Usuários atuais</h2>
+                        <% if(locals.user){%>
+                            <% user.forEach(function(elem){%>
+            <p><%= elem.nome %></p>            
+                            <%}) %>
+            
+                       <% } %>
+            
+                    </div>
+
+                </div>
+                <div class="col">
+                    <div class="container my-3 d-flex">
+                        <form action="/user" method="post">
+                            <p class="h4">Cadastrar novo usuário</p>
+                            <label for="usuario">Nome de usuário:</label>
+                            <input name="usuario" type="text" placeholder="Digite seu nome aqui" required class="form-control mb-3">
+                            <input type="submit" value="Cadastrar" class="btn btn-outline-primary"  >
+            
+                        </form>
+            
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
+
+ </div>
+
+
+    </section>
+
+    <!-- Editar ou excluir-->
+
+    <section id="edit" style="display: none;">
+        <div class="container">
+            <div class="row g-2 "> 
+        
+                <% if(locals.avaliacoes){ %>
+                <%    avaliacoes.forEach(function(elem){%>
+                    <div class="col-3 poetry-title text-center m-2" >
+                        <a  href="/edit/<%=elem.id%>">
+                            <h4 class="h4"><%=elem.titulo%></h4>
+                        </a>
+                        <p>Avaliado por: <%=elem.nome%>, com nota: <%=elem.nota%></p>
+
+                       
+                        <form action="/delete-av" method="post">
+                            <label class="form-check-label" for="delete">Deletar</label>
+                            <input class="form-check-input"  id="delete" type="checkbox" onchange="this.form.submit()" name="deleteItemId" value="<%= elem.id %>">
+                           <!-- <label for="delete" class="btn btn-outline-dange">Delete</label> -->
+                          </form>
+                    </div>
+        
+                <%    })%>      
+                <%}else{%>
+                    <h1>Ainda sem avaliações</h1>
+                    <%}%>
+                     
+        
+            </div>
+        </div></section>
+
+
+    
+
+
+
+    <!--fechamento do container-->
+</div>
+
+    
+
+
+
+
+<%-include ("partials/footer.ejs")%>

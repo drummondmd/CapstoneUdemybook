@@ -1,0 +1,12 @@
+.text-area-index{
+    display: -webkit-box;
+-webkit-line-clamp: 3;
+overflow: hidden;
+-webkit-box-orient: vertical; 
+}
+
+.book-cover{
+    width: 80%;
+    max-width: 200px;
+    height: auto;
+}
